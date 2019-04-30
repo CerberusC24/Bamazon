@@ -1,13 +1,13 @@
 // import node packages
 const inquirer = require('inquirer');
 const mysql = require('mysql');
-require('dotenv');
+require('dotenv').config();
 
 //  connect to database
 const bamazonDB = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "300atrium",
+  host: process.env.host,
+  user: process.env.user,
+  password: process.env.password,
   database: "bamazon"
 });
 
@@ -48,7 +48,7 @@ function buyProduct() {
       inquirer.prompt([
         {
           name: "product_name",
-          message: "Please select the listing number for the item you would like to purchase",
+          message: "Please select the item you would like to purchase",
           type: "list",
           choices: productName,
         },
@@ -56,10 +56,23 @@ function buyProduct() {
           name: "howMany",
           message: "How many units would you like to purchase?",
           validate: function (quantityInput) {
-            if (!isNaN(quantityInput) || quantityInput <= 0) {
-              console.log("Please select a valid quantity")
+
+            if (isNaN(quantityInput)) {
+              console.log(`
+              ==============================
+              Please select a valid quantity
+              ==============================
+`)
+            } 
+            else if (quantityInput <= 0) {
+              console.log(`
+              ==============================
+              Please select a valid quantity
+              ==============================
+`)
+            } else {
               return true;
-            }            
+            }          
           }
         }
       ]).then(function (purchaseInfo) {
