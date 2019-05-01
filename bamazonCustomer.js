@@ -14,8 +14,7 @@ const bamazonDB = mysql.createConnection({
 function productDisplay() {
   // on app load first show all the items for sale
   bamazonDB.query(
-    "SELECT * FROM products",
-    function (err, productInfo) {
+    "SELECT * FROM products", function (err, productInfo) {
 
       if (err) throw err;
 
@@ -60,17 +59,25 @@ function buyProduct() {
             if (isNaN(quantityInput)) {
               console.log(`
               ==============================
-              Please select a valid quantity
+              Please input a valid quantity
               ==============================
 `)
             } 
             else if (quantityInput <= 0) {
               console.log(`
               ==============================
-              Please select a valid quantity
+              Please input a valid quantity
               ==============================
 `)
-            } else {
+            }
+            else if (!quantityInput) {
+              console.log(`
+              ==============================
+              Please input a valid quantity
+              ==============================
+`) 
+            } 
+            else {
               return true;
             }          
           }
@@ -84,7 +91,11 @@ function buyProduct() {
 
         // if quantity requested is higher than stock then do nothing
         if (purchaseInfo.howMany > selectedItem.stock_quantity) {
-          console.log("Sorry, we're running low on stock for that item at the moment. Try again later.");
+          console.log(`
+          =====================================================
+          Sorry, we're running low on stock for that item at the moment. Try a smaller order or try again later.
+          =====================================================
+`);
           buyProduct()
         } 
         else {
