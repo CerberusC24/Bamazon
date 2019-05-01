@@ -58,13 +58,16 @@ function productList() {
 
     for (let i = 0; i < productInfo.length; i++) {
       console.log(`      
-  ================================================================================================
-    ${productInfo[i].item_id}. | ${productInfo[i].product_name} | Price: $${productInfo[i].price} | Department: ${productInfo[i].department_name}
-  ================================================================================================
+  ====================================================================================================================
+    ${productInfo[i].item_id}. | ${productInfo[i].product_name} | Price: $${productInfo[i].price} | Department: ${productInfo[i].department_name} | In Stock: ${productInfo[i].stock_quantity} Units
+  ====================================================================================================================
 `);
     }
+    menuSelect();
   })
 
+
+  function menuSelect() {
   inquirer.prompt([
   {
     name: "addAction",
@@ -82,6 +85,7 @@ function productList() {
     }
   })
 };
+}
 
 function addProduct() {
 console.log(`
